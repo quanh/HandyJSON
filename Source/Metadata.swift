@@ -196,8 +196,8 @@ extension Metadata {
                 
                 for i in 0..<self.numberOfFields {
                     let name = fieldRecords[i].fieldName
-                    if let cMangledTypeName = fieldRecords[i].mangledTypeName, let cMangledTypeNameInt = fieldRecords[i].mangledTypeNameInt,
-                        let fieldType = _getTypeByMangledNameInContext(cMangledTypeName, getMangledTypeNameSize(cMangledTypeNameInt), genericContext: self.contextDescriptorPointer, genericArguments: self.genericArgumentVector) {
+                    if let cMangledTypeName = fieldRecords[i].mangledTypeName,
+                        let fieldType = _getTypeByMangledNameInContext(cMangledTypeName, getMangledTypeNameSize(cMangledTypeName), genericContext: self.contextDescriptorPointer, genericArguments: self.genericArgumentVector) {
 
                         result.append(Property.Description(key: name, type: fieldType, offset: fieldOffsets[i]))
                     }
@@ -293,10 +293,9 @@ extension Metadata {
             for i in 0..<self.numberOfFields where fieldRecords[i].mangledTypeName != nil{
                 let name = fieldRecords[i].fieldName
                 let cMangledTypeName = fieldRecords[i].mangledTypeName!
-                let cMangledTypeNameInt = fieldRecords[i].mangledTypeNameInt!
 
                 let functionMap: [String: () -> Any.Type?] = [
-                    "function": { _getTypeByMangledNameInContext(cMangledTypeName, Int(getMangledTypeNameSize(cMangledTypeNameInt)),genericContext: self.contextDescriptorPointer, genericArguments: self.genericArgumentVector) }]
+                    "function": { _getTypeByMangledNameInContext(cMangledTypeName, getMangledTypeNameSize(cMangledTypeName),genericContext: self.contextDescriptorPointer, genericArguments: self.genericArgumentVector) }]
                 if let function = functionMap["function"],let fieldType  = function() {                    result.append(Property.Description(key: name, type: fieldType, offset: fieldOffsets[i]))
                 }
             }
