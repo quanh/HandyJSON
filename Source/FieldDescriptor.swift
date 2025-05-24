@@ -79,6 +79,12 @@ struct FieldRecord: PointerType {
         let cString = UnsafePointer<UInt8>(bitPattern: address + offset)
         return cString
     }
+    var mangledTypeNameInt: UnsafePointer<Int8>? {
+        let address = Int(bitPattern: pointer) + 1 * 4
+        let offset = Int(pointer.pointee.mangledTypeNameOffset)
+        let cString = UnsafePointer<Int8>(bitPattern: address + offset)
+        return cString
+    }
 
     var fieldName: String {
         let address = Int(bitPattern: pointer) + 2 * 4
